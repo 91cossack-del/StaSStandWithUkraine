@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СтаніСлавоСайт - Три Сторінки</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === БАЗОВІ СТИЛІ І АДАПТИВНІСТЬ === */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s ease; /* Для плавного переходу фону на сторінці 2 */
+        }
+
+        .page {
+            /* Контейнер для симуляції повної сторінки */
+            width: 100vw;
+            min-height: 100vh;
+            display: none; /* За замовчуванням усі "сторінки" приховані */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            padding: 20px; /* Забезпечення місця для обрамлення */
+            box-sizing: border-box;
+            overflow: hidden; /* Щоб анімації не виходили за межі */
+        }
+        
+        /* Стиль для подвійного світло-сірого обрамлення */
+        .page-border {
+            border: 5px solid #cccccc; /* Внутрішня рамка */
+            outline: 5px solid #dddddd; /* Зовнішня рамка */
+            outline-offset: -10px; /* Притискає рамки одна до одної */
+            min-height: calc(100vh - 40px);
+            width: calc(100% - 40px);
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            box-sizing: border-box;
+        }
+
+        /* === СТОРІНКА 1 СТИЛІ === */
+        #page1 {
+            background-image: url('bg1.jpg'); /* ЗОБРАЖЕННЯ 1 */
+            display: flex; /* Відображаємо першу сторінку при завантаженні */
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+        }
+        
+        .p1-content {
+            padding-top: 20vh;
+            z-index: 10;
+        }
+
+        #title1 {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 32px;
+            color: #3333ff;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+        }
+
+        #subtitle1 {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 24px;
+            color: #3333ff;
+            margin-top: 5px;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+        }
+        
+        #circle-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-image: url('circle_img.png'); /* ЗОБРАЖЕННЯ 2 */
+            background-size: cover;
+            background-position: center;
+            margin: 30px auto;
+            border: 3px solid #3333ff;
+        }
+
+        #next-page-btn {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-top: 30px solid #3333ff; /* Стрілка вниз */
+            cursor: pointer;
+            margin-bottom: 30px;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+        #next-page-btn:hover {
+            transform: scale(1.1);
+        }
+
+
+        /* === СТОРІНКА 2 СТИЛІ === */
+        #page2 {
+            background-image: url('bg2.jpg'); /* ЗОБРАЖЕННЯ 3 */
+            align-items: center;
+            justify-content: center;
+        }
+
+        #timer {
+            font-family: 'Open Sans', serif; /* OPEN SANS + запасний з засічкою */
+            font-size: 3em;
+            color: red;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Анімація блимання для таймера */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .blinking {
+            animation: blink 0.5s step-end infinite;
+        }
+
+
+        /* === СТОРІНКА 3 СТИЛІ === */
+        #page3 {
+            background-image: url('bg4.jpg'); /* ЗОБРАЖЕННЯ 4 */
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        /* Створення ефектів для написів (використовуємо keyframes для анімації) */
+        @keyframes colorChange {
+            0%, 100% { color: yellow; }
+            33% { color: lime; }
+            66% { color: magenta; }
+        }
+
+        @keyframes move {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10px, -10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+
+        @keyframes sizeChange {
+            0%, 100% { font-size: 1.5em; }
+            50% { font-size: 2.0em; }
+        }
+
+        .text-effect {
+            position: absolute; /* Позиціонуємо абсолютно для руху */
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            padding: 5px;
+            white-space: nowrap; /* Запобігає переносу тексту */
+        }
+        
+        /* Специфічні стилі для написів */
+        #t1 { top: 10%; left: 5%; font-size: 3em; font-weight: bold; font-family: 'Impact', sans-serif; animation-name: colorChange; }
+        #t2 { top: 20%; right: 10%; font-size: 1.5em; font-family: 'Verdana', sans-serif; color: orange; animation-name: move; animation-duration: 6s; }
+        #t3 { top: 35%; left: 50%; transform: translateX(-50%); font-size: 2em; font-family: 'Times New Roman', serif; animation-name: pulse; animation-duration: 3s; }
+        #t4 { bottom: 10%; left: 10%; font-size: 1.2em; font-family: 'Courier New', monospace; animation-name: sizeChange; color: cyan; }
+        #t5 { bottom: 20%; right: 5%; font-size: 1.8em; font-family: 'Georgia', serif; animation-name: move, colorChange; animation-duration: 5s, 3s; color: purple; }
+        #t6 { top: 5%; right: 5%; font-size: 1.6em; font-family: 'Comic Sans MS', cursive; animation-name: pulse; color: #ff00ff; }
+        #t7 { top: 50%; left: 5%; font-size: 1.3em; font-family: 'Arial Black', sans-serif; animation-name: sizeChange; color: #00ff00; }
+        #t8 { bottom: 30%; left: 40%; font-size: 1.7em; font-family: 'Tahoma', sans-serif; animation-name: move; animation-duration: 7s; color: #00ffff; }
+        #t9 { top: 60%; right: 15%; font-size: 2.2em; font-family: 'Trebuchet MS', sans-serif; animation-name: colorChange; animation-duration: 2s; }
+        #t10 { top: 75%; left: 50%; transform: translateX(-50%); font-size: 2.5em; font-weight: bold; font-family: 'Arial Narrow', sans-serif; animation-name: pulse; animation-duration: 4s; }
+    </style>
+</head>
+<body>
+
+    <audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio> <audio id="music-sound" src="music.mp3" loop preload="auto"></audio> <div id="page1" class="page">
+        <div class="page-border"></div>
+        <div class="p1-content">
+            <h1 id="title1">Вас вітає СТАНІСЛАВОСАЙТ</h1>
+            <p id="subtitle1">дізнайтесь, через скільки "стане можна"</p>
+            <div id="circle-img"></div>
+        </div>
+        <div id="next-page-btn" onclick="goToPage(2)"></div>
+    </div>
+    
+    <div id="page2" class="page">
+        <div class="page-border"></div>
+        <div id="timer">00:00:00</div>
+    </div>
+
+    <div id="page3" class="page">
+        <div class="page-border"></div>
+        <span class="text-effect" id="t1">СтаніSLAVE</span>
+        <span class="text-effect" id="t2">Стасян</span>
+        <span class="text-effect" id="t3">Стасун</span>
+        <span class="text-effect" id="t4">Стасидло</span>
+        <span class="text-effect" id="t5">Стасік</span>
+        <span class="text-effect" id="t6">Станок</span>
+        <span class="text-effect" id="t7">Стасуневич</span>
+        <span class="text-effect" id="t8">Стасович</span>
+        <span class="text-effect" id="t9">СТАСується кожного</span>
+        <span class="text-effect" id="t10">ІконоСТАС</span>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 3;
+        const timerDisplay = document.getElementById('timer');
+        const page2 = document.getElementById('page2');
+        const alarmSound = document.getElementById('alarm-sound');
+        const musicSound = document.getElementById('music-sound');
+        
+        // =========================================================
+        // ФУНКЦІЯ ПЕРЕХОДУ МІЖ СТОРІНКАМИ (БЛОКУВАННЯ АДРЕСНОГО РЯДКА)
+        // =========================================================
+        function goToPage(pageNumber) {
+            if (pageNumber < 1 || pageNumber > totalPages) return;
+
+            // Приховуємо всі сторінки
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Відображаємо потрібну сторінку
+            const targetPage = document.getElementById(`page${pageNumber}`);
+            targetPage.style.display = 'flex';
+            currentPage = pageNumber;
+
+            // Логіка для сторінок
+            if (pageNumber === 2) {
+                // Запускаємо таймер при переході на сторінку 2
+                startTimer();
+                // Зупиняємо звук 2, якщо він грав
+                musicSound.pause();
+                musicSound.currentTime = 0;
+            } else if (pageNumber === 3) {
+                // Зупиняємо звук 1
+                alarmSound.pause();
+                alarmSound.currentTime = 0;
+                // Запускаємо звук 2 (потрібен користувацький дозвіл на відтворення)
+                musicSound.play().catch(e => console.log("Не вдалося запустити ЗВУК 2:", e));
+            } else if (pageNumber === 1) {
+                 // Гарантуємо, що звуки зупинені при поверненні на 1
+                alarmSound.pause();
+                alarmSound.currentTime = 0;
+                musicSound.pause();
+                musicSound.currentTime = 0;
+            }
+        }
+        
+        // =========================================================
+        // ФУНКЦІЯ ТАЙМЕРА (СТОРІНКА 2)
+        // =========================================================
+        function startTimer() {
+            // Встановлюємо початковий фон
+            page2.style.backgroundImage = "url('bg2.jpg')";
+
+            function updateTimer() {
+                // Отримання поточного часу в UTC+3 (Київський часовий пояс)
+                const now = new Date();
+                
+                // Створення цільової дати (Сьогодні о 18:00:00)
+                const target = new Date(now);
+                target.setHours(18, 0, 0, 0);
+
+                // Якщо 18:00 вже минуло сьогодні, встановлюємо ціль на завтра
+                if (now > target) {
+                    target.setDate(target.getDate() + 1);
+                }
+
+                // Різниця в мілісекундах
+                let difference = target - now;
+                
+                // Якщо різниця менша або дорівнює 0 (настало 18:00)
+                if (difference <= 0) {
+                    timerDisplay.textContent = "00:00:00";
+                    goToPage(3); // Перехід на сторінку 3
+                    return; // Зупиняємо виконання таймера
+                }
+
+                // Обчислення годин, хвилин, секунд
+                const secondsTotal = Math.floor(difference / 1000);
+                const hours = Math.floor(secondsTotal / 3600);
+                const minutes = Math.floor((secondsTotal % 3600) / 60);
+                const seconds = secondsTotal % 60;
+                
+                // Форматування виводу
+                const h = String(hours).padStart(2, '0');
+                const m = String(minutes).padStart(2, '0');
+                const s = String(seconds).padStart(2, '0');
+
+                timerDisplay.textContent = `${h}:${m}:${s}`;
+                
+                // === ЛОГІКА ЗА 10 СЕКУНД ДО ===
+                if (secondsTotal <= 10) {
+                    // Зміна фону на білий
+                    page2.style.backgroundImage = 'none';
+                    page2.style.backgroundColor = 'white';
+
+                    // Мигання/блимання таймера
+                    timerDisplay.classList.add('blinking');
+
+                    // Увімкнення ЗВУК 1 (якщо ще не грає)
+                    if (alarmSound.paused) {
+                        // Для відтворення звуку потрібен дозвіл користувача (клік)
+                        alarmSound.play().catch(e => console.log("Не вдалося запустити ЗВУК 1:", e));
+                    }
+                } else {
+                    // Повернення до нормального стану
+                    page2.style.backgroundImage = "url('bg2.jpg')";
+                    page2.style.backgroundColor = 'initial';
+                    timerDisplay.classList.remove('blinking');
+                    alarmSound.pause();
+                    alarmSound.currentTime = 0;
+                }
+            }
+
+            // Запускаємо таймер і оновлюємо кожну секунду
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        // Запуск сайту з першої сторінки при завантаженні
+        document.addEventListener('DOMContentLoaded', () => {
+            goToPage(1);
+        });
+
+    </script>
+
+</body>
+</html>
